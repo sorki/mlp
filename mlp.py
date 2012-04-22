@@ -28,6 +28,14 @@ class Layer(object):
             for i in range(self.num_neurons):
                 self.weights.append([0 for _ in range(self.next.num_neurons)])
 
+    def __str__(self):
+        out = '  V: %s\n' % self.values
+        if self.weights:
+            out += '  W: %s\n' % self.weights
+        out += '\n'
+        return out
+
+
 class MLP(object):
     ''' Multi layer perceptron implementation '''
     def __init__(self, activation_fn=lambda x: math.tanh(x)):
@@ -74,3 +82,9 @@ class MLP(object):
     def _back_propagate(self):
         ''' Run back propagation process for each layer '''
         pass
+
+    def __str__(self):
+        out = 'MLP:\n'
+        for layer in self.layers:
+            out += '%s' % layer
+        return out
