@@ -77,10 +77,13 @@ class MLPTest(unittest.TestCase):
         a.add_layer(Layer(2))
         a.add_layer(Layer(3))
         a.init_network()
+        self.assertIsNone(a.layers[0].prev)
         self.assertIsNotNone(a.layers[0].weights)
         self.assertIsNotNone(a.layers[0].next)
+        self.assertIsNotNone(a.layers[1].prev)
         self.assertIsNotNone(a.layers[1].weights)
         self.assertIsNotNone(a.layers[1].next)
+        self.assertIsNotNone(a.layers[2].prev)
         self.assertIsNone(a.layers[2].weights)
         self.assertIsNone(a.layers[2].next)
 
