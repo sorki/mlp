@@ -47,7 +47,7 @@ class MLP(object):
         ''' Get result using `inp` as input '''
         pass
 
-    def _activate_(self):
+    def _activate(self):
         ''' Run activation process for each layer '''
         pass
 
