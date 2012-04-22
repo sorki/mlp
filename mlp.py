@@ -8,6 +8,7 @@ class Layer(object):
         self.num_neurons = num_neurons
         self.next = None
         self.weights = None
+        self.values = [0 for _ in range(self.num_neurons)]
 
     def next_layer(self, layer_instance):
         ''' Set following layer '''
