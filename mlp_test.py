@@ -16,6 +16,15 @@ class LayerTest(unittest.TestCase):
         x.next_layer(y)
         x.next is y
 
+    def test_prev_layer(self):
+        with self.assertRaises(AssertionError):
+            Layer(15).prev_layer('')
+
+        x = Layer(1)
+        y = Layer(2)
+        y.prev_layer(x)
+        y.prev is x
+
     def test_init_weights(self):
         x = Layer(1)
         x.init_weights()
