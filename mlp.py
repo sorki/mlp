@@ -55,11 +55,21 @@ class MLP(object):
 
     def run(self, inp):
         ''' Get result using `inp` as input '''
-        pass
+        if len(self.layers[0].values) != len(inp):
+            raise ValueError
+
+        self.layers[0].values = inp
+        self._activate()
+        return self.layers[-1].values
 
     def _activate(self):
         ''' Run activation process for each layer '''
-        pass
+        for layer in self.layers[1:]:
+            for idx in range(layer.num_neurons):
+                val = .0
+                for h_idx, h_neuron_value in enumerate(layer.prev.values):
+                    val = val + h_neuron_value * layer.prev.weights[h_idx][idx]
+                layer.values[idx] = self.activation_fn(val)
 
     def _back_propagate(self):
         ''' Run back propagation process for each layer '''

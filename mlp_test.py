@@ -87,5 +87,21 @@ class MLPTest(unittest.TestCase):
         self.assertIsNone(a.layers[2].weights)
         self.assertIsNone(a.layers[2].next)
 
+    def test_activate(self):
+        a = MLP()
+        a.add_layer(Layer(3))
+        a.add_layer(Layer(2))
+        a.init_network()
+        a.layers[0].values = [1, 1, 1]
+        a.layers[0].weights[0][0] = 1
+        a.layers[0].weights[1][0] = -1
+        a.layers[0].weights[2][0] = 1
+        a.layers[0].weights[0][1] = -0.1
+        a.layers[0].weights[1][1] = -0.5
+        a.layers[0].weights[2][1] = 1
+        a._activate()
+        self.assertGreater(a.layers[1].values[0], 0.5)
+        self.assertLess(a.layers[1].values[1], 0.5)
+
 if __name__ == '__main__':
     unittest.main()
