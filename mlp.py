@@ -42,10 +42,3 @@ class MLP(object):
     def _back_propagate(self):
         ''' Run back propagation process for each layer '''
         pass
-
-def main():
-    pass
-
-if __name__ == '__main__':
-    main()
-
