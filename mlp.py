@@ -7,6 +7,7 @@ class Layer(object):
             raise ValueError
         self.num_neurons = num_neurons
         self.next = None
+        self.prev = None
         self.weights = None
         self.values = [0 for _ in range(self.num_neurons)]
 
@@ -14,6 +15,11 @@ class Layer(object):
         ''' Set following layer '''
         assert isinstance(layer_instance, Layer)
         self.next = layer_instance
+
+    def prev_layer(self, layer_instance):
+        ''' Set preceding layer '''
+        assert isinstance(layer_instance, Layer)
+        self.prev = layer_instance
 
     def init_weights(self):
         ''' Initialize weight matrix between this and following layer '''
