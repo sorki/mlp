@@ -46,6 +46,9 @@ class MLP(object):
             self.layers[i].next_layer(self.layers[i+1])
             self.layers[i].init_weights()
 
+        for i in range(1, len(self.layers)):
+            self.layers[i].prev_layer(self.layers[i-1])
+
     def train(self, patterns):
         ''' Use list of patterns to train the network '''
         pass
