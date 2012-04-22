@@ -16,9 +16,10 @@ class Layer(object):
 
     def init_weights(self):
         ''' Initialize weight matrix between this and following layer '''
-        self.weights = []
-        for i in range(self.num_neurons):
-            self.weights.append([0 for _ in range(self.next.num_neurons)])
+        if self.next is not None:
+            self.weights = []
+            for i in range(self.num_neurons):
+                self.weights.append([0 for _ in range(self.next.num_neurons)])
 
 class MLP(object):
     ''' Multi layer perceptron implementation '''
