@@ -3,6 +3,8 @@ import math
 class Layer(object):
     ''' Single layer in MLP '''
     def __init__(self, num_neurons):
+        if num_neurons <= 0:
+            raise ValueError
         self.num_neurons = num_neurons
         self.next = None
         self.weights = None
