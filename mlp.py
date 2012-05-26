@@ -97,7 +97,7 @@ class MLP(object):
         for layer_id, layer in enumerate(self.layers):
             out += 'subgraph cluster_%d {' % layer_id
             for neu_id, value in enumerate(layer.values):
-                out+= 'N%d_%d [label="N%d_%d=%d"];' % (
+                out+= 'N%d_%d [label="N%d_%d=%.2f"];' % (
                     layer_id, neu_id, layer_id, neu_id, value)
             out += '}'
         for layer_id, layer in enumerate(self.layers):
