@@ -67,7 +67,11 @@ class MLP(object):
 
     def train(self, patterns):
         ''' Use list of patterns to train the network '''
-        pass
+        for i in range(1000):
+            error = 0.
+            for inp, target in patterns:
+                self.run(inp)
+                error += self._back_propagate(target)
 
     def run(self, inp):
         ''' Get result using `inp` as input '''
