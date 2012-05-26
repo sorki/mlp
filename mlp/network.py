@@ -26,6 +26,15 @@ class MLP(object):
         for i in range(1, len(self.layers)):
             self.layers[i].prev_layer(self.layers[i-1])
 
+        for lay in self.layers:
+            lay.init_values()
+
+    def add_bias(self):
+        ''' Add bias node to first layer '''
+        zero_layer = self.layers[0]
+        zero_layer.num_neurons += 1
+        zero_layer.has_bias = True
+
     def train(self, patterns, iters=1000):
         ''' Use list of patterns to train the network '''
         for i in range(iters):
@@ -54,17 +63,29 @@ class MLP(object):
 
     def run(self, inp):
         ''' Get result using `inp` as input '''
-        if len(self.layers[0].values) != len(inp):
+        zero_layer = self.layers[0]
+        required = zero_layer.num_neurons
+        if zero_layer.has_bias:
+            required -= 1
+        if required != len(inp):
             raise ValueError
 
-        self.layers[0].values = inp
+        zero_layer = self.layers[0]
+        if zero_layer.has_bias:
+            for i in range(zero_layer.num_neurons-1):
+                zero_layer.values[i] = inp[i]
+        else:
+            zero_layer.values = inp
         self._activate()
         return self.layers[-1].values
 
     def _activate(self):
         ''' Run activation process for each layer '''
         for layer in self.layers[1:]:
-            for idx in range(layer.num_neurons):
+            lim = layer.num_neurons
+            if layer.has_bias:
+                lim -= 1
+            for idx in range(lim):
                 val = .0
                 for h_idx, h_neuron_value in enumerate(layer.prev.values):
                     val = val + h_neuron_value * layer.prev.weights[h_idx][idx]

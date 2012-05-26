@@ -14,7 +14,8 @@ class Layer(object):
         self.weights = None
         self.weight_changes = None
         self.difs = None
-        self.values = [0 for _ in range(self.num_neurons)]
+        self.has_bias = False
+        self.values = []
 
     def next_layer(self, layer_instance):
         ''' Set following layer '''
@@ -25,6 +26,12 @@ class Layer(object):
         ''' Set preceding layer '''
         assert isinstance(layer_instance, Layer)
         self.prev = layer_instance
+
+    def init_values(self):
+        ''' Initialize value vector '''
+        self.values = [0 for _ in range(self.num_neurons)]
+        if self.has_bias:
+            self.values[-1] = 1.
 
     def init_weights(self):
         ''' Initialize weight matrix between this and following layer '''
