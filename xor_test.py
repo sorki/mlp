@@ -19,8 +19,13 @@ class XorTest(unittest.TestCase):
         ]
 
         xor.train(xor_patterns)
-        for inp, outp in xor_patterns:
-            self.assertEqual(xor.run(inp), outp)
+        for inp, target in xor_patterns:
+            tolerance = 0.1
+            computed = xor.run(inp)
+            error = abs(computed[0] - target[0])
+            print 'input: %s target: %s, output: %s, error: %.4f' % (inp,
+                target, computed, error)
+            self.assertGreater(tolerance, error)
 
 if __name__ == '__main__':
     unittest.main()
