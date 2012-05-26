@@ -88,3 +88,26 @@ class MLP(object):
         for layer in self.layers:
             out += '%s' % layer
         return out
+
+    def as_graph(self):
+        ''' Output dot graph representation '''
+        out = 'digraph mlp { '
+        for layer_id, layer in enumerate(self.layers):
+            out += 'subgraph cluster_%d {' % layer_id
+            for neu_id, value in enumerate(layer.values):
+                out+= 'N%d_%d [label="N%d_%d=%d"];' % (
+                    layer_id, neu_id, layer_id, neu_id, value)
+            out += '}'
+        for layer_id, layer in enumerate(self.layers):
+            if layer.next is None:
+                break
+            for neu_id in range(layer.num_neurons):
+                for next_id in range(layer.next.num_neurons):
+                    label = ''
+                    if layer.weights:
+                        label = '[label="%.2f"]' % (
+                            layer.weights[neu_id][next_id],)
+                    out += 'N%d_%d -> N%d_%d %s;' % (layer_id, neu_id,
+                        layer_id+1, next_id, label)
+        out += '}'
+        return out
