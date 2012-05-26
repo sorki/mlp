@@ -26,9 +26,9 @@ class MLP(object):
         for i in range(1, len(self.layers)):
             self.layers[i].prev_layer(self.layers[i-1])
 
-    def train(self, patterns):
+    def train(self, patterns, iters=1000):
         ''' Use list of patterns to train the network '''
-        for i in range(1000):
+        for i in range(iters):
             error = 0.
             for inp, target in patterns:
                 self.run(inp)
