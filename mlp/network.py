@@ -33,6 +33,7 @@ class MLP(object):
             for inp, target in patterns:
                 self.run(inp)
                 error += self._back_propagate(target)
+        return error
 
     def run(self, inp):
         ''' Get result using `inp` as input '''
