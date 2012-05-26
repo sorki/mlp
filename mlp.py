@@ -38,8 +38,10 @@ class Layer(object):
 
 class MLP(object):
     ''' Multi layer perceptron implementation '''
-    def __init__(self, activation_fn=lambda x: math.tanh(x)):
+    def __init__(self, activation_fn=lambda x: math.tanh(x),
+            derivative_fn=lambda x: 1.0 - x**2 ):
         self.activation_fn = activation_fn
+        self.derivative_fn = derivative_fn
         self.layers = []
 
     def add_layer(self, layer_instance):
