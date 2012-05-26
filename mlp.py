@@ -13,6 +13,7 @@ class Layer(object):
         self.next = None
         self.prev = None
         self.weights = None
+        self.weight_changes = None
         self.difs = None
         self.values = [0 for _ in range(self.num_neurons)]
 
@@ -30,14 +31,19 @@ class Layer(object):
         ''' Initialize weight matrix between this and following layer '''
         if self.next is not None:
             self.weights = []
+            self.weight_changes = []
             for i in range(self.num_neurons):
-                self.weights.append([random.uniform(-0.2, 0.2)
+                self.weights.append([self.weight_function()
+                    for _ in range(self.next.num_neurons)])
+                self.weight_changes.append([0
                     for _ in range(self.next.num_neurons)])
 
     def __str__(self):
         out = '  V: %s\n' % self.values
         if self.weights:
             out += '  W: %s\n' % self.weights
+        if self.weight_changes:
+            out += '  C: %s\n' % self.weight_changes
         if self.difs:
             out += '  D: %s\n' % self.difs
         out += '\n'
@@ -52,6 +58,7 @@ class MLP(object):
         self.derivative_fn = derivative_fn
         self.layers = []
         self.step = 0.3
+        self.moment = 0.1
 
     def add_layer(self, layer_instance):
         ''' Add MLP layer - first layer is treated as an input layer,
@@ -123,7 +130,9 @@ class MLP(object):
             for i in range(layer.num_neurons):
                 for j in range(layer.next.num_neurons):
                     weight_change = layer.values[i] * layer.next.difs[j]
-                    layer.weights[i][j] += self.step * weight_change
+                    layer.weights[i][j] += self.step * weight_change + \
+                        self.moment * layer.weight_changes[i][j]
+                    layer.weight_changes[i][j] = weight_change
 
         return total_error
 
