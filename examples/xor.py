@@ -16,7 +16,7 @@ def main():
         ([1, 1], [0]),
     ]
 
-    xor.train(xor.patterns)
+    print xor.train_target(xor.patterns)
     for inp, target in xor.patterns:
         tolerance = 0.1
         computed = xor.run(inp)
