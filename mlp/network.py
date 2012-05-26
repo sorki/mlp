@@ -35,6 +35,23 @@ class MLP(object):
                 error += self._back_propagate(target)
         return error
 
+    def train_target(self, patterns,
+            target_error=0.01,
+            max_iterations=10000):
+        ''' Train until error is lower then `target_error` or
+            `max_iterations` limit is reached '''
+
+        iters = 0
+        while True:
+            error = 0.
+            iters += 1
+            for inp, target in patterns:
+                self.run(inp)
+                error += self._back_propagate(target)
+            if error < target_error or iters == max_iterations:
+                break
+        return (error, iters)
+
     def run(self, inp):
         ''' Get result using `inp` as input '''
         if len(self.layers[0].values) != len(inp):
