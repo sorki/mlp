@@ -23,7 +23,7 @@ class XorTest(unittest.TestCase):
             ([1, 1], [0]),
         ]
 
-        xor.train(xor_patterns)
+        print xor.train_target(xor_patterns, 0.01, 2000)
         for inp, target in xor_patterns:
             tolerance = 0.1
             computed = xor.run(inp)
