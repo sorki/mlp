@@ -30,26 +30,28 @@ class LayerTest(unittest.TestCase):
         x.init_weights()
         self.assertIsNone(x.weights)
 
-        x = Layer(1)
-        y = Layer(1)
+        cnf = lambda: 0
+
+        x = Layer(1, cnf)
+        y = Layer(1, cnf)
         x.next_layer(y)
         x.init_weights()
         self.assertEqual(x.weights, [[0]])
 
-        x = Layer(1)
-        y = Layer(2)
+        x = Layer(1, cnf)
+        y = Layer(2, cnf)
         x.next_layer(y)
         x.init_weights()
         self.assertEqual(x.weights, [[0, 0]])
 
-        x = Layer(2)
-        y = Layer(1)
+        x = Layer(2, cnf)
+        y = Layer(1, cnf)
         x.next_layer(y)
         x.init_weights()
         self.assertEqual(x.weights, [[0], [0]])
 
-        x = Layer(2)
-        y = Layer(2)
+        x = Layer(2, cnf)
+        y = Layer(2, cnf)
         x.next_layer(y)
         x.init_weights()
         self.assertEqual(x.weights, [[0, 0], [0, 0]])

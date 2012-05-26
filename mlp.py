@@ -3,10 +3,13 @@ import random
 
 class Layer(object):
     ''' Single layer in MLP '''
-    def __init__(self, num_neurons):
+    def __init__(self, num_neurons,
+            weight_function=lambda: random.uniform(-0.2, 0.2)):
         if num_neurons <= 0:
             raise ValueError
+
         self.num_neurons = num_neurons
+        self.weight_function = weight_function
         self.next = None
         self.prev = None
         self.weights = None
