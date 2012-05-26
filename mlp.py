@@ -1,4 +1,5 @@
 import math
+import random
 
 class Layer(object):
     ''' Single layer in MLP '''
@@ -9,6 +10,7 @@ class Layer(object):
         self.next = None
         self.prev = None
         self.weights = None
+        self.difs = None
         self.values = [0 for _ in range(self.num_neurons)]
 
     def next_layer(self, layer_instance):
@@ -26,12 +28,15 @@ class Layer(object):
         if self.next is not None:
             self.weights = []
             for i in range(self.num_neurons):
-                self.weights.append([0 for _ in range(self.next.num_neurons)])
+                self.weights.append([random.uniform(-0.2, 0.2)
+                    for _ in range(self.next.num_neurons)])
 
     def __str__(self):
         out = '  V: %s\n' % self.values
         if self.weights:
             out += '  W: %s\n' % self.weights
+        if self.difs:
+            out += '  D: %s\n' % self.difs
         out += '\n'
         return out
 
@@ -43,6 +48,7 @@ class MLP(object):
         self.activation_fn = activation_fn
         self.derivative_fn = derivative_fn
         self.layers = []
+        self.step = 0.3
 
     def add_layer(self, layer_instance):
         ''' Add MLP layer - first layer is treated as an input layer,
@@ -81,9 +87,38 @@ class MLP(object):
                     val = val + h_neuron_value * layer.prev.weights[h_idx][idx]
                 layer.values[idx] = self.activation_fn(val)
 
-    def _back_propagate(self):
+    def _back_propagate(self, desired):
         ''' Run back propagation process for each layer '''
-        pass
+        difs = []
+        total_error = 0.
+
+        for layer in reversed(self.layers):
+            layer.difs = []
+            if layer.next is None:
+                for idx, value in enumerate(layer.values):
+                    err = desired[idx] - value
+                    total_error = (err**2)/2
+                    dif = err * self.derivative_fn(value)
+                    layer.difs.append(dif)
+            else:
+                for idx, value in enumerate(layer.values):
+                    dif = 0.
+                    err = 0.
+                    for l_idx, l_dif in enumerate(layer.next.difs):
+                        err += l_dif * layer.weights[idx][l_idx]
+
+                    dif = self.derivative_fn(value) * err
+                    layer.difs.append(dif)
+
+        for layer in self.layers:
+            if layer.next is None:
+                continue
+            for i in range(layer.num_neurons):
+                for j in range(layer.next.num_neurons):
+                    weight_change = layer.values[i] * layer.next.difs[j]
+                    layer.weights[i][j] += self.step * weight_change
+
+        return total_error
 
     def __str__(self):
         out = 'MLP:\n'
