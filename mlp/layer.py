@@ -45,13 +45,16 @@ class Layer(object):
                     for _ in range(self.next.num_neurons)])
 
     def __str__(self):
-        out = '  V: %s\n' % self.values
+        def prf(inp):
+            return map(lambda x: '% .4f' % x, inp)
+
+        out = '  V: %s\n' % prf(self.values)
         if self.weights:
-            out += '  W: %s\n' % self.weights
+            out += '  W: %s\n' % prf(self.weights)
         if self.weight_changes:
-            out += '  C: %s\n' % self.weight_changes
+            out += '  C: %s\n' % prf(self.weight_changes)
         if self.difs:
-            out += '  D: %s\n' % self.difs
+            out += '  D: %s\n' % prf(self.difs)
         out += '\n'
         return out
 
