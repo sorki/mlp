@@ -10,6 +10,7 @@ class MLP(object):
         self.layers = []
         self.step = 0.3
         self.moment = 0.1
+        self.verbose = False
 
     def add_layer(self, layer_instance):
         ''' Add MLP layer - first layer is treated as an input layer,
@@ -42,6 +43,9 @@ class MLP(object):
             for inp, target in patterns:
                 self.run(inp)
                 error += self._back_propagate(target)
+
+            if self.verbose:
+                print '%d %.8f' % ( i, error )
         return error
 
     def train_target(self, patterns,
@@ -57,6 +61,8 @@ class MLP(object):
             for inp, target in patterns:
                 self.run(inp)
                 error += self._back_propagate(target)
+            if self.verbose:
+                print '%d %.8f' % ( iters, error )
             if error < target_error or iters == max_iterations:
                 break
         return (error, iters)
