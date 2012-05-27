@@ -44,7 +44,7 @@ class XorTest(unittest.TestCase):
 
     def validate(self):
         for inp, target in self.xor.patterns:
-            tolerance = 0.1
+            tolerance = 0.5
             computed = self.xor.run(inp)
             error = abs(computed[0] - target[0])
             print 'input: %s target: %s, output: %s, error: %.4f' % (inp,
