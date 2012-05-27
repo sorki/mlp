@@ -102,8 +102,7 @@ class MLP(object):
                 for idx, value in enumerate(layer.values):
                     err = desired[idx] - value
                     total_error = (err**2)/2
-                    dif = err * self.derivative_fn(value)
-                    layer.difs.append(dif)
+                    layer.difs.append(err)
             else:
                 for idx, value in enumerate(layer.values):
                     dif = 0.
