@@ -31,12 +31,12 @@ def main():
             return x/255
         return map(fn, inp)
 
-    sample_dirs = set(os.listdir('samples'))
+    sample_dirs = set(os.listdir('font_samples'))
     train = set(random.sample(sample_dirs, len(sample_dirs)-1))
     test = sample_dirs - train
     for j in train:
         for i in range(0, 10):
-            gim = Image.open('samples/%s/%d.png' % (j, i)).convert('L')
+            gim = Image.open('font_samples/%s/%d.png' % (j, i)).convert('L')
             imdata = norm(list(gim.getdata()))
             outvect = [0]*10
             outvect[i] = 1
@@ -45,7 +45,7 @@ def main():
 
     for j in test:
         for i in range(0, 10):
-            gim = Image.open('samples/%s/%d.png' % (j, i)).convert('L')
+            gim = Image.open('font_samples/%s/%d.png' % (j, i)).convert('L')
             imdata = norm(list(gim.getdata()))
             outvect = [0]*10
             outvect[i] = 1
