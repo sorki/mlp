@@ -27,5 +27,6 @@ also requires placing `python-mnist` on `PYTHONPATH`.
 
 Other features:
  - .dot graph output (`as_graph` method)
+ - backpropagation moment
  - two training methods (defined desired error or number of iterations)
  - unit tests
